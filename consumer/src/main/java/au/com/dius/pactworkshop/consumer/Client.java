@@ -17,16 +17,16 @@ public class Client {
         this.url = url;
     }
 
-    public JsonNode loadProviderJson() throws UnirestException {
-        return Unirest.get("http://localhost:8080/flights")
-                .queryString("flightDate", LocalDate.now().toString())
+    public JsonNode loadProviderJson(LocalDate flightDate) throws UnirestException {
+        return Unirest.get(url + "/flights")
+                .queryString("flightDate", flightDate.toString())
                 .queryString("originAirport", "AMS")
                 .queryString("destinationAirport", "BCN")
                 .asJson().getBody();
     }
 
-    public List<Object> fetchAndProcessData() throws UnirestException {
-        JsonNode data = loadProviderJson();
+    public List<Object> fetchAndProcessData(LocalDate flightDate) throws UnirestException {
+        JsonNode data = loadProviderJson(flightDate);
         System.out.println("data=" + data);
 
         JSONObject jsonObject = data.getObject();
