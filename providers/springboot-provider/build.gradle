@@ -40,14 +40,14 @@ task stopProvider(type: KillProcessTask) {
 
 pact {
   serviceProviders {
-    'Our_Provider' {
+    'Flight_Provider' {
       port = 8080
 
       startProviderTask = startProvider
       terminateProviderTask = stopProvider
 
-      hasPactWith('Our Little Consumer') {
-        pactFile = file("$buildDir/pacts/Our Little Consumer-Our Provider.json")
+      hasPactWith('Flight Consumer') {
+        pactFile = file("$buildDir/pacts/FLight Consumer-Flight Provider.json")
       }
     }
   }
