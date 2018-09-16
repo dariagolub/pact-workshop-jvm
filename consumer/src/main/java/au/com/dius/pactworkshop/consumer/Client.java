@@ -6,7 +6,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,11 +23,14 @@ public class Client {
         System.out.println("data=" + data);
 
         JSONObject jsonObject = data.getObject();
-        int value = 100 / jsonObject.getInt("count");
-        ZonedDateTime date = ZonedDateTime.parse(jsonObject.getString("date"));
+        LocalDate date = LocalDate.parse(jsonObject.getString("flightDate"));
+        String originAirport = jsonObject.getString("originAirport");
+        String destinationAirport = jsonObject.getString("destinationAirport");
+        String airline = jsonObject.getString("airline");
+        Double price = jsonObject.getDouble("price");
+        String currency = jsonObject.getString("currency");
 
-        System.out.println("value=" + value);
         System.out.println("date=" + date);
-        return Arrays.asList(value, date);
+        return Arrays.asList(date, originAirport, destinationAirport, airline, price, currency);
     }
 }
