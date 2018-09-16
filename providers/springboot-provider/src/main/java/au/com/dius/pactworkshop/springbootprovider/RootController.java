@@ -5,21 +5,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class RootController {
 
-  @RequestMapping("/provider.json")
-  public Map<String, Serializable> providerJson(@RequestParam(required = false) String validDate) {
-    LocalDateTime validTime = LocalDateTime.parse(validDate);
-    Map<String, Serializable> map = new HashMap<>(3);
-    map.put("test", "NO");
-    map.put("validDate", LocalDateTime.now().toString());
-    map.put("count", 1000);
-    return map;
-  }
+    @RequestMapping("/flights")
+    public Map<String, Serializable> providerJson(@RequestParam String flightDate,
+                                                  @RequestParam String originAirport,
+                                                  @RequestParam String destinationAirport) {
+        LocalDate date = LocalDate.parse(flightDate);
+        Map<String, Serializable> map = new HashMap<>();
+        map.put("test", "NO");
+        map.put("flightDate", LocalDate.now().toString());
+        map.put("originAirport", originAirport);
+        map.put("destinationAirport", destinationAirport);
+        map.put("airline", "Vueling");
+        map.put("price", 49);
+        map.put("currency", "EUR");
+        return map;
+    }
 
 }
