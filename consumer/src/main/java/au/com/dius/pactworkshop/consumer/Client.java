@@ -5,35 +5,39 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 public class Client {
 
-  private final String url;
+    private final String url;
 
-  public Client(String url) {
-    this.url = url;
-  }
+    public Client(String url) {
+        this.url = url;
+    }
 
-  private JsonNode loadProviderJson(LocalDateTime dateTime) throws UnirestException {
-    return Unirest.get(url + "/provider.json")
-      .queryString("validDate", dateTime.toString())
-      .asJson().getBody();
-  }
+    public JsonNode loadProviderJson(LocalDate flightDate) throws UnirestException {
+        return Unirest.get(url + "/flights")
+                .queryString("flightDate", flightDate.toString())
+                .queryString("originAirport", "AMS")
+                .queryString("destinationAirport", "BCN")
+                .asJson().getBody();
+    }
 
-  public List<Object> fetchAndProcessData(LocalDateTime dateTime) throws UnirestException {
-    JsonNode data = loadProviderJson(dateTime);
-    System.out.println("data=" + data);
+    public List<Object> fetchAndProcessData(LocalDate flightDate) throws UnirestException {
+        JsonNode data = loadProviderJson(flightDate);
+        System.out.println("data=" + data);
 
-    JSONObject jsonObject = data.getObject();
-    int value = 100 / jsonObject.getInt("count");
-    ZonedDateTime date = ZonedDateTime.parse(jsonObject.getString("date"));
+        JSONObject jsonObject = data.getObject();
+        LocalDate date = LocalDate.parse(jsonObject.getString("flightDate"));
+        String originAirport = jsonObject.getString("originAirport");
+        String destinationAirport = jsonObject.getString("destinationAirport");
+        String airline = jsonObject.getString("airline");
+        Double price = jsonObject.getDouble("price");
+        String currency = jsonObject.getString("currency");
 
-    System.out.println("value=" + value);
-    System.out.println("date=" + date);
-    return Arrays.asList(value, date);
-  }
+        System.out.println("date=" + date);
+        return Arrays.asList(date, originAirport, destinationAirport, airline, price, currency);
+    }
 }
