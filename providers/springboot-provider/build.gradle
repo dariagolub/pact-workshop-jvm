@@ -1,54 +1,33 @@
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
-  }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
 }
-
-plugins {
-  id "au.com.dius.pact" version "3.5.14"
-  id "com.wiredforcode.spawn" version "0.8.2"
-}
-
-import com.wiredforcode.gradle.spawn.*
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web") {
-    exclude module: "spring-boot-starter-tomcat"
-  }
-  compile("org.springframework.boot:spring-boot-starter-jetty")
-  compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-test")
+
+    testCompile("au.com.dius:pact-jvm-provider-junit5_2.12:3.5.20")
+
+}
+
+test {
+    useJUnitPlatform()
 }
 
 springBoot {
-  mainClassName = 'au.com.dius.pactworkshop.springbootprovider.MainApplication'
+    mainClassName = 'au.com.dius.pactworkshop.springbootprovider.MainApplication'
 }
 
-task startProvider(type: SpawnProcessTask, dependsOn: 'assemble') {
-  command "java -jar ${jar.archivePath}"
-  ready 'Started MainApplication'
-}
 
-task stopProvider(type: KillProcessTask) {
-
-}
-
-pact {
-  serviceProviders {
-    'Flight_Provider' {
-      port = 8080
-
-      startProviderTask = startProvider
-      terminateProviderTask = stopProvider
-
-      hasPactWith('Flight Consumer') {
-        pactFile = file("$buildDir/pacts/FLight Consumer-Flight Provider.json")
-      }
-    }
-  }
-}

@@ -17,15 +17,10 @@ subprojects {
   }
 }
 
-task copyPactToDropwizard(type: Copy) {
-  from "${project(':consumer').buildDir}/pacts"
-  into "${project(':providers:dropwizard-provider').buildDir}/pacts"
-}
-
 task copyPactToSpringboot(type: Copy) {
   from "${project(':consumer').buildDir}/pacts"
   into "${project(':providers:springboot-provider').buildDir}/pacts"
 }
 
-task publishWorkshopPact(dependsOn: [copyPactToDropwizard, copyPactToSpringboot],
+task publishWorkshopPact(dependsOn: [copyPactToSpringboot],
   description: 'Publish the pact file to the provider projects')
