@@ -31,7 +31,7 @@ public class PactVerificationTest {
         context.verifyInteraction();
     }
 
-    @State("flight from AMS to BCN exists")
+    @State("flights count > 0")
     public void flightAmsBcnExists() {
 
     }

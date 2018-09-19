@@ -40,7 +40,7 @@ class ClientPactSpec extends Specification {
                 currency: 'EUR'
         ]
         provider {
-            given('flight from AMS to BCN exists')
+            given('flights count > 0')
             uponReceiving('a request for flight data')
             withAttributes(path: '/flights', query: [flightDate: date.toString(), originAirport: originAirport, destinationAirport: destinationAirport])
             willRespondWith(status: 200, body: JsonOutput.toJson(json), headers: ['Content-Type': 'application/json'])
