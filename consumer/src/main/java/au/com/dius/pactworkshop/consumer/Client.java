@@ -17,7 +17,7 @@ public class Client {
         this.url = url;
     }
 
-    public JsonNode loadProviderJson(LocalDate flightDate) throws UnirestException {
+    private JsonNode loadProviderJson(LocalDate flightDate) throws UnirestException {
         return Unirest.get(url + "/flights")
                 .queryString("flightDate", flightDate.toString())
                 .queryString("originAirport", "AMS")
@@ -27,7 +27,7 @@ public class Client {
 
     public List<Object> fetchAndProcessData(LocalDate flightDate) throws UnirestException {
         JsonNode data = loadProviderJson(flightDate);
-        System.out.println("data=" + data);
+        System.out.println("Retrieved data from provider: " + data);
 
         JSONObject jsonObject = data.getObject();
         LocalDate date = LocalDate.parse(jsonObject.getString("flightDate"));
@@ -37,7 +37,7 @@ public class Client {
         Double price = jsonObject.getDouble("price");
         String currency = jsonObject.getString("currency");
 
-        System.out.println("date=" + date);
+        System.out.println("Parsed date = " + date);
         return Arrays.asList(date, originAirport, destinationAirport, airline, price, currency);
     }
 }

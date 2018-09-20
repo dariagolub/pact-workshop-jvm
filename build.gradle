@@ -19,7 +19,7 @@ subprojects {
 
 task copyPactToSpringboot(type: Copy) {
   from "${project(':consumer').buildDir}/pacts"
-  into "${project(':providers:springboot-provider').buildDir}/pacts"
+  into "${project(':provider').buildDir}/pacts"
 }
 
 task publishWorkshopPact(dependsOn: [copyPactToSpringboot],
