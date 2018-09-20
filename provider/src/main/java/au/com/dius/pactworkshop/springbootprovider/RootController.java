@@ -16,7 +16,6 @@ public class RootController {
                                                 @RequestParam String originAirport,
                                                 @RequestParam String destinationAirport) {
         Map<String, Serializable> map = new HashMap<>();
-        map.put("test", "NO");
         map.put("flightDate", flightDate);
         map.put("originAirport", originAirport);
         map.put("destinationAirport", destinationAirport);
