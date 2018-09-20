@@ -10,17 +10,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Client {
-    public JsonNode loadProviderJson() throws UnirestException {
-        return Unirest.get("http://localhost:8080/flights")
+    private JsonNode loadProviderJson(String uri) throws UnirestException {
+        return Unirest.get(uri + "/flights")
                 .queryString("flightDate", LocalDate.now().toString())
                 .queryString("originAirport", "AMS")
                 .queryString("destinationAirport", "BCN")
                 .asJson().getBody();
     }
 
-    public List<Object> fetchAndProcessData() throws UnirestException {
-        JsonNode data = loadProviderJson();
-        System.out.println("data=" + data);
+    public List<Object> fetchAndProcessData(String uri) throws UnirestException {
+        JsonNode data = loadProviderJson(uri);
+        System.out.println("Retrieved data from provider: " + data);
 
         JSONObject jsonObject = data.getObject();
         LocalDate date = LocalDate.parse(jsonObject.getString("flightDate"));
@@ -30,7 +30,7 @@ public class Client {
         Double price = jsonObject.getDouble("price");
         String currency = jsonObject.getString("currency");
 
-        System.out.println("date=" + date);
+        System.out.println("Parsed date =" + date);
         return Arrays.asList(date, originAirport, destinationAirport, airline, price, currency);
     }
 }

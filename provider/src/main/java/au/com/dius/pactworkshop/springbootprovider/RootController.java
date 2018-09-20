@@ -20,7 +20,7 @@ public class RootController {
         map.put("originAirport", originAirport);
         map.put("destinationAirport", destinationAirport);
         map.put("airline", "Vueling");
-        map.put("price", 49);
+        map.put("price", 49.5);
         map.put("currency", "EUR");
         return map;
     }
