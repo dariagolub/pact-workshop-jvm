@@ -1,57 +1,43 @@
 package au.com.dius.pactworkshop.consumer;
 
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class Client {
 
-  private final String url;
+    private final String url;
 
-  public Client(String url) {
-    this.url = url;
-  }
-
-  private Optional<JsonNode> loadProviderJson(String dateTime) throws UnirestException {
-    HttpRequest getRequest = Unirest.get(url + "/provider.json");
-
-    if (StringUtils.isNoneEmpty(dateTime)) {
-      getRequest = getRequest.queryString("validDate", dateTime);
+    public Client(String url) {
+        this.url = url;
     }
 
-    HttpResponse<JsonNode> jsonNodeHttpResponse = getRequest.asJson();
-    if (jsonNodeHttpResponse.getStatus() == 200) {
-      return Optional.of(jsonNodeHttpResponse.getBody());
-    } else {
-      return Optional.empty();
+    private JsonNode loadProviderJson(LocalDate flightDate) throws UnirestException {
+        return Unirest.get(url + "/flights")
+                .queryString("flightDate", flightDate.toString())
+                .queryString("originAirport", "AMS")
+                .queryString("destinationAirport", "BCN")
+                .asJson().getBody();
     }
-  }
 
-  public List<Object> fetchAndProcessData(String dateTime) throws UnirestException {
-    Optional<JsonNode> data = loadProviderJson(dateTime);
-    System.out.println("data=" + data);
+    public List<Object> fetchAndProcessData(LocalDate flightDate) throws UnirestException {
+        JsonNode data = loadProviderJson(flightDate);
+        System.out.println("Retrieved data from provider: " + data);
 
-    if (data != null && data.isPresent()) {
-      JSONObject jsonObject = data.get().getObject();
-      int value = 100 / jsonObject.getInt("count");
-      OffsetDateTime date = OffsetDateTime.parse(jsonObject.getString("validDate"),
-        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX"));
+        JSONObject jsonObject = data.getObject();
+        LocalDate date = LocalDate.parse(jsonObject.getString("flightDate"));
+        String originAirport = jsonObject.getString("originAirport");
+        String destinationAirport = jsonObject.getString("destinationAirport");
+        String airline = jsonObject.getString("airline");
+        Double price = jsonObject.getDouble("price");
+        String currency = jsonObject.getString("currency");
 
-      System.out.println("value=" + value);
-      System.out.println("date=" + date);
-      return Arrays.asList(value, date);
-    } else {
-      return Arrays.asList(0, null);
+        System.out.println("Parsed date = " + date);
+        return Arrays.asList(date, originAirport, destinationAirport, airline, price, currency);
     }
-  }
 }

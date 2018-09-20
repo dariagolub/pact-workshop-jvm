@@ -1,0 +1,55 @@
+{
+    "provider": {
+        "name": "Flight Provider"
+    },
+    "consumer": {
+        "name": "Flight Consumer"
+    },
+    "interactions": [
+        {
+            "description": "a request for flight data",
+            "request": {
+                "method": "GET",
+                "path": "/flights",
+                "query": {
+                    "flightDate": [
+                        "2018-09-20"
+                    ],
+                    "originAirport": [
+                        "AMS"
+                    ],
+                    "destinationAirport": [
+                        "BCN"
+                    ]
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "airline": "Vueling",
+                    "currency": "EUR",
+                    "destinationAirport": "BCN",
+                    "flightDate": "2018-09-20",
+                    "originAirport": "AMS",
+                    "price": 49.95
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "flights count > 0"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.5.14"
+        }
+    }
+}

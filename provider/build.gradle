@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-test")
+
+    testCompile("au.com.dius:pact-jvm-provider-junit5_2.12:3.5.20")
+
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+springBoot {
+    mainClassName = 'au.com.dius.pactworkshop.springbootprovider.MainApplication'
+}
+
+
