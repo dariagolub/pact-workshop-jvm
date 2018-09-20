@@ -17,13 +17,14 @@ public class ClientTest {
 
     private static final int PORT = 8089;
 
+    @Rule
     public WireMockRule wireMockRule = new WireMockRule(PORT);
 
     @Test
     public void canProcessTheJsonPayloadFromTheProvider() throws UnirestException {
 
         String date = LocalDate.now().toString();
-        Double price = 49.5;
+        Double price = 49.95;
 
         stubFor(get(urlPathEqualTo("/flights"))
                 .withQueryParam("flightDate", matching(".+"))

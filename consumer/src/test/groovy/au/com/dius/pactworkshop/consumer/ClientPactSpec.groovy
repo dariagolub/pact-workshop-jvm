@@ -16,7 +16,7 @@ class ClientPactSpec extends Specification {
     private PactBuilder provider
 
     def setup() {
-        client = new Client('http://localhost:1234')
+        client = new Client('http://localhost:8081')
         date = LocalDate.now()
         originAirport = 'AMS'
         destinationAirport = 'BCN'
@@ -24,14 +24,13 @@ class ClientPactSpec extends Specification {
         provider {
             serviceConsumer 'Flight Consumer'
             hasPactWith 'Flight Provider'
-            port 1234
+            port 8081
         }
     }
 
     def 'Pact with flight provider'() {
         given:
         def json = [
-                test : 'NO',
                 flightDate : date.toString(),
                 originAirport: originAirport,
                 destinationAirport: destinationAirport,
