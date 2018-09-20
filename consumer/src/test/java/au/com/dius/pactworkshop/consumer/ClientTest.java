@@ -40,7 +40,7 @@ public class ClientTest {
                                 "\"price\": \"" + price + "\", " +
                                 "\"currency\": \"EUR\"}")));
 
-        List<Object> data = new Client().fetchAndProcessData(HOST + PORT);
+        List<Object> data = new Client(HOST + PORT).fetchAndProcessData();
 
         assertThat(data, hasSize(6));
         assertThat(data.get(0), is(LocalDate.parse(date)));

@@ -10,16 +10,23 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Client {
-    private JsonNode loadProviderJson(String uri) throws UnirestException {
-        return Unirest.get(uri + "/flights")
+
+    private final String url;
+
+    public Client(String url) {
+        this.url = url;
+    }
+
+    private JsonNode loadProviderJson() throws UnirestException {
+        return Unirest.get(url + "/flights")
                 .queryString("flightDate", LocalDate.now().toString())
                 .queryString("originAirport", "AMS")
                 .queryString("destinationAirport", "BCN")
                 .asJson().getBody();
     }
 
-    public List<Object> fetchAndProcessData(String uri) throws UnirestException {
-        JsonNode data = loadProviderJson(uri);
+    public List<Object> fetchAndProcessData() throws UnirestException {
+        JsonNode data = loadProviderJson();
         System.out.println("Retrieved data from provider: " + data);
 
         JSONObject jsonObject = data.getObject();
