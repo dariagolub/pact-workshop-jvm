@@ -31,7 +31,6 @@ class ClientPactSpec extends Specification {
     def 'Pact with flight provider'() {
         given:
         def json = [
-                test : 'NO',
                 flightDate : date.toString(),
                 originAirport: originAirport,
                 destinationAirport: destinationAirport,
