@@ -15,14 +15,15 @@ import static org.hamcrest.Matchers.is;
 
 public class ClientTest {
 
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+    private static final int PORT = 8089;
+
+    public WireMockRule wireMockRule = new WireMockRule(PORT);
 
     @Test
     public void canProcessTheJsonPayloadFromTheProvider() throws UnirestException {
 
-        String date = "2018-09-20";
-        Double price = 29.25;
+        String date = LocalDate.now().toString();
+        Double price = 49.5;
 
         stubFor(get(urlPathEqualTo("/flights"))
                 .withQueryParam("flightDate", matching(".+"))
