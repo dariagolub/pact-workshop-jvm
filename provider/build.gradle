@@ -20,8 +20,6 @@ dependencies {
 
     testCompile("au.com.dius:pact-jvm-provider-junit5_2.12:3.5.20")
 
-
-
 }
 
 test {
@@ -31,5 +29,3 @@ test {
 springBoot {
     mainClassName = 'au.com.dius.pactworkshop.springbootprovider.MainApplication'
 }
-
-

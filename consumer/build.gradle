@@ -28,8 +28,16 @@ test {
 
 pact {
   publish {
-    pactBrokerUrl = 'https://test.pact.dius.com.au'
+    pactBrokerUrl = 'http://localhost:80'
     pactBrokerUsername = project.pactBrokerUser
     pactBrokerPassword = project.pactBrokerPassword
+  }
+  serviceProviders {
+
+    provider {
+      insecure = true // allow SSL with a self-signed cert
+
+    }
+
   }
 }

@@ -34,6 +34,7 @@ public class ClientTest {
                                 "\"destinationAirport\": \"BCN\", " +
                                 "\"airline\": \"Vueling\", " +
                                 "\"price\": \"" + price + "\", " +
+                                "\"price2\": \"" + price + "\", " +
                                 "\"currency\": \"EUR\"}")));
 
         List<Object> data = new Client("http://localhost:8089").fetchAndProcessData(LocalDate.parse(date));

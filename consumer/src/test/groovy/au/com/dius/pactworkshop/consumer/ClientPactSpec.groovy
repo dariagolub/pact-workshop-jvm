@@ -3,7 +3,6 @@ package au.com.dius.pactworkshop.consumer
 import au.com.dius.pact.consumer.PactVerificationResult
 import au.com.dius.pact.consumer.groovy.PactBuilder
 import spock.lang.Specification
-
 import java.time.LocalDate
 
 class ClientPactSpec extends Specification {
@@ -30,12 +29,12 @@ class ClientPactSpec extends Specification {
     def 'Pact with flight provider'() {
         given:
         def json = [
-                flightDate        : date.toString(),
-                originAirport     : originAirport,
+                flightDate : date.toString(),
+                originAirport: originAirport,
                 destinationAirport: destinationAirport,
-                airline           : 'Vueling',
-                price             : 49.95,
-                currency          : 'EUR'
+                airline: 'Vueling',
+                price: 49.95,
+                currency: 'EUR'
         ]
         provider {
             given('flights count > 0')
